@@ -76,9 +76,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter != null && !mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        if (mBluetoothAdapter != null) {
+            if (!mBluetoothAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            } else {
+                startService(new Intent(this, BluetoothService.class));
+            }
+        }
+        else{
+            Toast.makeText(MainActivity.this, "Bluetooth não disponível, não é possível continuar!", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    MainActivity.this.finish();
+                    moveTaskToBack(true);
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(1);
+                }
+            }, DURACAO_DA_TELA);
         }
 
     }
@@ -184,5 +199,11 @@ public class MainActivity extends AppCompatActivity {
             // Show 3 total pages.
             return 3;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, BluetoothService.class));
     }
 }

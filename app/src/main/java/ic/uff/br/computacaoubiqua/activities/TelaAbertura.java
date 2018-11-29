@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.Locale;
 
 import ic.uff.br.computacaoubiqua.R;
+import ic.uff.br.computacaoubiqua.services.BluetoothService;
 
 public class TelaAbertura extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public class TelaAbertura extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_abertura);
+        startService(new Intent(this, BluetoothService.class));
     }
 
     @Override

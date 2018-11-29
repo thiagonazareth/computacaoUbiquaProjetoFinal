@@ -24,51 +24,35 @@ import ic.uff.br.computacaoubiqua.R;
 
 public class Bluetooth extends AppCompatActivity {
 
-    private BluetoothAdapter BTAdapter;
-    public static int REQUEST_BLUETOOTH = 1;
     BluetoothAdapter mBluetoothAdapter;
     Timer timer;
+    TimerTask timerTask;
 
+    //we are going to use a handler to be able to run in our TimerTask
+    final Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_abertura);
 
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        // If there are paired devices
-        if (pairedDevices.size() > 0) {
-            // Loop through paired devices
-            Log.d("myTag", "Dispositivos PAREADOS");
-            for (BluetoothDevice device : pairedDevices) {
-                // Add the name and address to an array adapter to show in a ListView
-//                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-                Log.d("myTag", device.getName() + " -- " + device.getAddress());
-                Toast.makeText(Bluetooth.this, device.getName() + " -- " + device.getAddress(), Toast.LENGTH_LONG).show();
-            }
-        }
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Toast.makeText(Bluetooth.this, "ENTROU NO LOOP", Toast.LENGTH_LONG).show();
-
-                if(mBluetoothAdapter.startDiscovery()){
-
-                    Toast.makeText(Bluetooth.this, "Iniciou", Toast.LENGTH_LONG).show();
-                } else {
-
-                    Toast.makeText(Bluetooth.this, "Não rodou", Toast.LENGTH_LONG).show();
-                }
-            }
-        }, 5000);
-
-
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(mReceiver, filter);
+//        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+//        // If there are paired devices
+//        if (pairedDevices.size() > 0) {
+//            // Loop through paired devices
+//            Log.d("myTag", "Dispositivos PAREADOS");
+//            for (BluetoothDevice device : pairedDevices) {
+//                // Add the name and address to an array adapter to show in a ListView
+////                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+//                Log.d("myTag", device.getName() + " -- " + device.getAddress());
+//                Toast.makeText(Bluetooth.this, device.getName() + " -- " + device.getAddress(), Toast.LENGTH_LONG).show();
+//            }
+//        }
+//
+//
+//        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+//        registerReceiver(mReceiver, filter);
 
 
     }
@@ -84,7 +68,7 @@ public class Bluetooth extends AppCompatActivity {
 //                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 Log.d("myTag", "Dispositivos ENCONTRADO");
                 Log.d("myTag", device.getName() + " -- " + device.getAddress());
-                Toast.makeText(Bluetooth.this, device.getName() + " -AQUI- " + device.getAddress(), Toast.LENGTH_LONG).show();
+                Toast.makeText(Bluetooth.this, device.getName() + " -AQUI- " + device.getAddress(), Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -92,8 +76,45 @@ public class Bluetooth extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+//        startTimer();
 
     }
+
+//    public void startTimer() {
+//        //set a new Timer
+//        timer = new Timer();
+//
+//        //initialize the TimerTask's job
+//        initializeTimerTask();
+//
+//        //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
+//        timer.schedule(timerTask, 5000, 12000); //
+//    }
+//
+//
+//    public void initializeTimerTask() {
+//
+//        timerTask = new TimerTask() {
+//            public void run() {
+//
+//                //use a handler to run a toast that shows the current timestamp
+//                handler.post(new Runnable() {
+//                    public void run() {
+//                        Toast.makeText(Bluetooth.this, "ENTROU NO LOOP", Toast.LENGTH_SHORT).show();
+//
+//                        if(mBluetoothAdapter.startDiscovery()){
+//
+//                            Toast.makeText(Bluetooth.this, "Iniciou", Toast.LENGTH_SHORT).show();
+//                        } else {
+//
+//                            Toast.makeText(Bluetooth.this, "Não rodou", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
+//        };
+//    }
+
 
     @Override
     protected void onStop()

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ComputacaoUbiqua</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_bluetooth">BlueTooth</string>
+    <string name="title_activity_tela_abertura">Alzheimer Help</string>
+    <string name="button_connect">Connect</string>
+    <string name="button_disconnect">Disconnect</string>
+    <string name="title_devices">Devices</string>
+    <string name="action_settings">Settings</string>
+    <string name="scan">Scan</string>
+    <string name="stopScan">Stop Scanning</string>
+</resources>

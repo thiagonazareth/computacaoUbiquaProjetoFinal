@@ -1,6 +1,5 @@
 package ic.uff.br.computacaoubiqua.services;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -16,12 +15,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ic.uff.br.computacaoubiqua.activities.Bluetooth;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;
 
@@ -29,7 +26,7 @@ public class BluetoothService extends Service {
 
     private BluetoothAdapter BTAdapter;
     public static int REQUEST_BLUETOOTH = 1;
-    BluetoothAdapter mBluetoothAdapter;
+       BluetoothAdapter mBluetoothAdapter;
     Timer timer;
     TimerTask timerTask;
 
@@ -57,7 +54,7 @@ public class BluetoothService extends Service {
                 // Add the name and address to an array adapter to show in a ListView
 //                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 Log.d("ComputacaoUbiqua", device.getName() + " -- " + device.getAddress());
-//                Toast.makeText(Bluetooth.this, device.getName() + " -- " + device.getAddress(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, device.getName() + " -- " + device.getAddress(), Toast.LENGTH_LONG).show();
             }
         }
 
@@ -91,7 +88,7 @@ public class BluetoothService extends Service {
 //                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 Log.d("ComputacaoUbiqua", "Dispositivos ENCONTRADO");
                 Log.d("ComputacaoUbiqua", device.getName() + " --AQUI-- " + device.getAddress());
-//                Toast.makeText(Bluetooth.this, device.getName() + " -AQUI- " + device.getAddress(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(BluetoothService.this, device.getName() + " -AQUI- " + device.getAddress(), Toast.LENGTH_SHORT).show();
 
                 //procura na base
                 //https://stackoverflow.com/questions/44167111/android-room-simple-select-query-cannot-access-database-on-the-main-thread
@@ -136,14 +133,14 @@ public class BluetoothService extends Service {
                 //use a handler to run a toast that shows the current timestamp
                 handler.post(new Runnable() {
                     public void run() {
-//                        Toast.makeText(Bluetooth.this, "ENTROU NO LOOP", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "ENTROU NO LOOP", Toast.LENGTH_SHORT).show();
 
                         if(mBluetoothAdapter.startDiscovery()){
 
-//                            Toast.makeText(Bluetooth.this, "Iniciou", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "Iniciou", Toast.LENGTH_SHORT).show();
                         } else {
 
-//                            Toast.makeText(Bluetooth.this, "Não rodou", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "Não rodou", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

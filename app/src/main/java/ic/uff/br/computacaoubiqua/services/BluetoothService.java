@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
@@ -21,6 +22,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ic.uff.br.computacaoubiqua.activities.Bluetooth;
+import ic.uff.br.computacaoubiqua.database.AppDatabase;
+import ic.uff.br.computacaoubiqua.database.user.User;
 
 public class BluetoothService extends Service {
 
@@ -33,7 +36,7 @@ public class BluetoothService extends Service {
     //we are going to use a handler to be able to run in our TimerTask
     final Handler handler = new Handler();
 
-    public String text = "Flamengo ficou so no cheirinho. Flamengo ficou so no cheirinho.";
+//    public String text = "Flamengo ficou so no cheirinho. Flamengo ficou so no cheirinho.";
     TextToSpeech t1;
 
     @Nullable
@@ -83,23 +86,32 @@ public class BluetoothService extends Service {
             // When discovery finds a device
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Get the BluetoothDevice object from the Intent
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // Add the name and address to an array adapter to show in a ListView
 //                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 Log.d("ComputacaoUbiqua", "Dispositivos ENCONTRADO");
                 Log.d("ComputacaoUbiqua", device.getName() + " --AQUI-- " + device.getAddress());
 //                Toast.makeText(Bluetooth.this, device.getName() + " -AQUI- " + device.getAddress(), Toast.LENGTH_SHORT).show();
-                t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+
+                //procura na base
+                //https://stackoverflow.com/questions/44167111/android-room-simple-select-query-cannot-access-database-on-the-main-thread
+                AsyncTask.execute(new Runnable() {
                     @Override
-                    public void onInit(int status) {
-                        if(status != TextToSpeech.ERROR) {
-                            t1.setLanguage(new Locale("pt", "BR"));
-                    t1.setPitch(0.2f);
-                    t1.setSpeechRate(0.8f);
-                            t1.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    public void run() {
+                        User user = AppDatabase.getInstance(BluetoothService.this).userDao().findByMacAddress(device.getAddress().trim());
+                        if (user == null){
+                            String first_name = device.getName();
+                            if (first_name == null){ //as vezes getName vem vazio (null)
+                                first_name = "NULO";
+                            }
+                            AppDatabase.getInstance(BluetoothService.this).userDao().insertAll(new User(first_name,"TESTE",device.getAddress(),"É um cara bem legal", "eu mesmo", "maternidade"));
+                        }
+                        for (User u: AppDatabase.getInstance(BluetoothService.this).userDao().getAll()) {
+                            Log.i("USER-NAME", u.getUid() + " " + u.getFirstName() + " " + u.getLastName() + " " + u.getMacAddress());
                         }
                     }
                 });
+
             }
         }
     };

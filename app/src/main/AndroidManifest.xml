@@ -23,6 +23,11 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".activities.ExibeVisita"
+            android:label="Exibe Visita">
+        </activity>
+
 
         <activity
             android:name=".activities.TelaAbertura"

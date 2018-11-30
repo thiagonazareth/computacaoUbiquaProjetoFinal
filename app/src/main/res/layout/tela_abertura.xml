@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/logo"
+        android:src="@drawable/ic_launcher"
         android:id="@+id/imageView1" />
     <TextView
         android:layout_height="wrap_content"

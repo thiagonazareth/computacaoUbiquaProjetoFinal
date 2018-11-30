@@ -27,17 +27,6 @@ public class TelaAbertura extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-//        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-//            @Override
-//            public void onInit(int status) {
-//                if(status != TextToSpeech.ERROR) {
-//                    t1.setLanguage(new Locale("pt", "BR"));
-////                    t1.setPitch(0.2f);
-////                    t1.setSpeechRate(0.8f);
-//                    t1.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-//                }
-//            }
-//        });
 
         new Handler().postDelayed(new Runnable() {
             public void run() {

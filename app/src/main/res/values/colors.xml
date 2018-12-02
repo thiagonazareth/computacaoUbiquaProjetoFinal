@@ -3,4 +3,60 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <item name="opaque" type="color">#cc000000</item>
+
+
+
+    <!--  menu lateral -->
+    <color name="list_item_title1">#FF7100</color>
+    <color name="list_item_title2">#124995</color>
+    <color name="list_background">#FFFFFF</color>
+    <color name="list_background_pressed">#992416</color>
+    <color name="list_divider">#EEEEEE</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="counter_text_color">#c5c4c4</color>
+
+    <color name="slide_subtitle">#535E65</color>
+
+
+    <color name="action_bar_color">#124995</color>
+    <color name="pontuacao_home">#FFF69F32</color>
+
+
+    <color name="home_cadastrar_visitante_cabecalho">#FFB29B57</color>
+    <color name="home_cadastrar_visitante_corpo">#FFE7D070</color>
+
+    <color name="home_ultimas_visitas_cabecalho">#FF78C06C</color>
+    <color name="home_ultimas_visitas_corpo">#FF8FF588</color>
+
+    <color name="home_configurar_alerta_cabecalho">#FFB45E4D</color>
+    <color name="home_configurar_alerta_corpo">#FFEF8168</color>
+
+    <color name="home_relatorio_cabecalho">#FFB2688B</color>
+    <color name="home_relatorio_corpo">#FFEC89B5</color>
+
+    <color name="text_blue">#124995</color>
+    <color name="text_gray">#61676C</color>
+    <color name="text_yellom">#FFFF00</color>
+    <color name="text_orange">#FF5E00</color>
+    <color name="text_green">#257042</color>
+
+    <color name="circle_map_proximity">#40FF7100</color>
+    <color name="orange_divider">#FF5E00</color>
+
+    <color name="gray_divider">#E6E6E6</color>
+
+
+
+    <!--  ListView -->
+
+    <color name="genre">#666666</color>
+    <color name="year">#888888</color>
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
 </resources>

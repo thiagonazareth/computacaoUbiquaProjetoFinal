@@ -24,6 +24,12 @@
         </activity>
 
         <activity
+            android:name=".activities.Home"
+            android:label="@string/title_activity_tela_abertura"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".activities.ExibeVisita"
             android:label="Exibe Visita">
         </activity>

@@ -18,7 +18,7 @@ public interface VisitDao {
 
     @Query("SELECT * FROM visit WHERE uid IN (:visitsIds)")
     List<User> loadAllByIds(int[] visitsIds);
-    
+
     @Insert
     void insertAll(Visit... visits);
 

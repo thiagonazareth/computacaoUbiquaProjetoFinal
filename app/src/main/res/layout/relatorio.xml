@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:barchart="http://schemas.android.com/apk/res-auto"
+    tools:context="ic.uff.br.computacaoubiqua.activities.Relatorio">
+
+    <me.ithebk.barchart.BarChart
+        android:id="@+id/bar_chart_vertical"
+        barchart:bar_type="vertical"
+        barchart:bar_width="30dp"
+        barchart:bar_color="@color/colorPrimary"
+        barchart:bar_text_color="#808080"
+        barchart:bar_text_size="15sp"
+        barchart:bar_show_auto_color="false"
+        barchart:bar_max_value="100"
+        barchart:bar_spaces = "0dp"
+        barchart:bar_show_value="true"
+        barchart:bar_show_animation="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="20dp"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

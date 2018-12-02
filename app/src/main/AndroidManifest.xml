@@ -24,6 +24,18 @@
         </activity>
 
         <activity
+            android:name=".activities.Home"
+            android:label="Home"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".activities.Relatorio"
+            android:label="Relatorio"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".activities.ExibeVisita"
             android:label="Exibe Visita">
         </activity>

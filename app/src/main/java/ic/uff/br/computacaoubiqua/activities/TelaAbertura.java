@@ -14,9 +14,7 @@ import ic.uff.br.computacaoubiqua.services.BluetoothService;
 public class TelaAbertura extends AppCompatActivity {
 
     public static final int DURACAO_DA_TELA = 2000;
-    TextToSpeech t1;
 
-//    public String text = "Flamengo ficou so no cheirinho. Flamengo ficou so no cheirinho.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +28,7 @@ public class TelaAbertura extends AppCompatActivity {
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent minhaAcao = new Intent(TelaAbertura.this, MainActivity.class);
+                Intent minhaAcao = new Intent(TelaAbertura.this, Home.class);
                 TelaAbertura.this.startActivity(minhaAcao);
                 TelaAbertura.this.finish();
             }

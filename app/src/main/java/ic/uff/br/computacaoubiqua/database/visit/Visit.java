@@ -26,8 +26,12 @@ public class Visit {
     @NonNull
     private Date visitDate;
 
+    @ColumnInfo
+    private Integer qtdPerguntas;
+
     @ColumnInfo(name = "user_id")
     private User user;
+
 
     public Visit(@NonNull Date visitDate, @NonNull User user) {
         this.visitDate = visitDate;
@@ -59,4 +63,11 @@ public class Visit {
     }
 
 
+    public Integer getQtdPerguntas() {
+        return qtdPerguntas;
+    }
+
+    public void setQtdPerguntas(Integer qtdPerguntas) {
+        this.qtdPerguntas = qtdPerguntas;
+    }
 }

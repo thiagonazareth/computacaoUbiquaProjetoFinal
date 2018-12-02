@@ -80,17 +80,15 @@ public class Home extends Activity {
 //			}
 //		});
 //
-//		final ImageView relatorios = (ImageView) findViewById(R.id.img_minha_conta);
-//		relatorios.setImageResource(R.drawable.button_minha_conta);
-//		relatorios.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				relatorios
-//						.setImageResource(R.drawable.button_minha_conta_hover);
-//				Intent intent = new Intent(Home.this, Relatorios.class);
-//
-//				startActivity(intent);
-//			}
-//		});
+		final ImageView relatorios = (ImageView) findViewById(R.id.img_relatorio);
+
+		relatorios.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Home.this, Relatorio.class);
+
+				startActivity(intent);
+			}
+		});
 
 
 

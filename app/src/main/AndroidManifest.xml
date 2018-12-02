@@ -25,7 +25,13 @@
 
         <activity
             android:name=".activities.Home"
-            android:label="@string/title_activity_tela_abertura"
+            android:label="Home"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".activities.Relatorio"
+            android:label="Relatorio"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 

@@ -1,11 +1,9 @@
 package ic.uff.br.computacaoubiqua.database;
 
-import android.app.Activity;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.content.ContextWrapper;
 
 import ic.uff.br.computacaoubiqua.database.user.User;
 import ic.uff.br.computacaoubiqua.database.user.UserDao;

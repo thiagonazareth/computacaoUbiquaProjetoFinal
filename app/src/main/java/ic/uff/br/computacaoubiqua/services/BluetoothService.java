@@ -10,26 +10,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.util.Locale;
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import ic.uff.br.computacaoubiqua.R;
+import ic.uff.br.computacaoubiqua.activities.DeviceAdapter;
 import ic.uff.br.computacaoubiqua.activities.ExibeVisita;
-import ic.uff.br.computacaoubiqua.activities.MainActivity;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;
 
@@ -38,18 +35,30 @@ public class BluetoothService extends Service {
     BluetoothAdapter mBluetoothAdapter;
     Timer timer;
     TimerTask timerTask;
-
     //we are going to use a handler to be able to run in our TimerTask
     final Handler handler = new Handler();
+    private final IBinder mBinder = new LocalBinder();
+    private DeviceAdapter deviceAdapter = new DeviceAdapter();
+
 
     public String text = "Você está recebendo uma nova visita.";
     TextToSpeech t1;
     TextToSpeech t2;
 
-    @Nullable
+    public void setAdapter(DeviceAdapter deviceAdapter) {
+        this.deviceAdapter = deviceAdapter;
+    }
+
+    public class LocalBinder extends Binder {
+        public BluetoothService getService() {
+            // Return this instance of LocalService so clients can call public methods
+            return BluetoothService.this;
+        }
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mBinder;
     }
 
     @Override
@@ -72,7 +81,6 @@ public class BluetoothService extends Service {
         super.onDestroy();
         //stopping the player when service is destroyed
         unregisterReceiver(mReceiver);
-
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -82,27 +90,33 @@ public class BluetoothService extends Service {
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Get the BluetoothDevice object from the Intent
                 final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                // Add the name and address to an array adapter to show in a ListView
-//                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-
-                //procura na base
-                //https://stackoverflow.com/questions/44167111/android-room-simple-select-query-cannot-access-database-on-the-main-thread
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        User user = AppDatabase.getInstance(BluetoothService.this).userDao().findByMacAddress(device.getAddress().trim());
-                        if (user == null){
-                            AppDatabase.getInstance(BluetoothService.this).userDao().insertAll(new User(device.getName(),null, device.getAddress(),"É um cara bem legal", "eu mesmo", "maternidade"));
-                        }
-                        for (User u: AppDatabase.getInstance(BluetoothService.this).userDao().getAll()) {
-                            Log.d("SERVICO",  u.getFirstName() + " " + u.getLastName() + " " + u.getMacAddress());
-                        }
-                    }
-                });
-
+                new DataBaseQuery().execute(device);
             }
         }
     };
+
+    private class DataBaseQuery extends AsyncTask<BluetoothDevice, Integer, User> {
+        protected User doInBackground(BluetoothDevice... devices) {
+            if (devices.length > 0) {
+                User user = AppDatabase.getInstance(BluetoothService.this).userDao().findByMacAddress(devices[0].getAddress());
+                if (user == null) {
+                    return new User(null, null, devices[0].getAddress(), devices[0].getName(), null, null, null, null);
+                }
+            }
+            return null;
+        }
+
+        protected void onPostExecute(User user) {
+            if (user != null) {
+//                devices.put(user.getMacAddress(), user);
+                deviceAdapter.addUser(user);
+            }
+            for (User u : deviceAdapter.getUserList()) {
+                Log.d("SERVICO", "MAP SIZE: " + deviceAdapter.getItemCount());
+                Log.d("SERVICO", u.getDeviceName() + " " + u.getMacAddress());
+            }
+        }
+    }
 
     public void startTimer() {
         //set a new Timer
@@ -126,7 +140,7 @@ public class BluetoothService extends Service {
                     public void run() {
 //                        Toast.makeText(MainActivity.this, "ENTROU NO LOOP", Toast.LENGTH_SHORT).show();
 
-                        if(mBluetoothAdapter.startDiscovery()){
+                        if (mBluetoothAdapter.startDiscovery()) {
 
 //                            t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
 //                                @Override
@@ -174,12 +188,8 @@ public class BluetoothService extends Service {
                             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
 
-
-
                             // notificationId is a unique int for each notification that you must define
                             notificationManager.notify(1, mBuilder.build());
-
-
 
 
 //                            Toast.makeText(MainActivity.this, "Iniciou", Toast.LENGTH_SHORT).show();

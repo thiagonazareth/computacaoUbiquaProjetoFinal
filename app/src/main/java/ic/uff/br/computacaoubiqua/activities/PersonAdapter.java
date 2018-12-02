@@ -5,20 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import ic.uff.br.computacaoubiqua.R;
 import ic.uff.br.computacaoubiqua.database.user.User;
 
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
 
-    private List<User> userList;
+    private List<User> userList = new ArrayList<>();
 //    private final OnListFragmentInteractionListener mListener;
 
-    public MyAdapter(List<User> userList) {
-        this.userList = userList;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -30,7 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.user = userList.get(position);
-        String exibeNome = holder.user.getFirstName() != null ? holder.user.getFirstName() : holder.user.getMacAddress();
+        String exibeNome = holder.user.getFirstName() + " " + holder.user.getLastName();
         holder.mContentView.setText(exibeNome);
 
 //        holder.mView.setOnClickListener(new View.OnClickListener() {

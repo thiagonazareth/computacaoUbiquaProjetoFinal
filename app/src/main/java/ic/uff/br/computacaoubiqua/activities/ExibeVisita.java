@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-public class ExibeVisita extends Activity {
+public class ExibeVisita extends AppCompatActivity {
 
     TextView buttonNao;
     TextView buttonSim;

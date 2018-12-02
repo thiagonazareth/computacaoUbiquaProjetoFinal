@@ -7,13 +7,16 @@ import android.arch.persistence.room.PrimaryKey;
 
 import android.support.annotation.NonNull;
 
-@Entity(indices = {@Index(value = {"mac_address"}, unique = true)})
+@Entity
 public class User {
 
     @PrimaryKey
     @ColumnInfo(name = "mac_address")
     @NonNull
     private String macAddress;
+
+    @ColumnInfo(name = "device_name")
+    private String deviceName;
 
     @ColumnInfo(name = "first_name")
     private String firstName;
@@ -30,13 +33,26 @@ public class User {
     @ColumnInfo(name = "place")
     private String place;
 
-    public User(String firstName, String lastName, @NonNull String macAddress, String description, String kinship, String place) {
+    @ColumnInfo(name = "photo_path")
+    private String photoPath;
+
+    public User(String firstName, String lastName, @NonNull String macAddress, String deviceName, String description, String kinship, String place, String photoPath) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.macAddress = macAddress;
         this.description = description;
         this.kinship = kinship;
         this.place = place;
+        this.photoPath = photoPath;
+        this.deviceName = deviceName;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
     }
 
     public String getFirstName() {
@@ -85,6 +101,14 @@ public class User {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
 }

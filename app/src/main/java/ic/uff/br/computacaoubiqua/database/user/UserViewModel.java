@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
-import ic.uff.br.computacaoubiqua.services.BluetoothService;
 
 public class UserViewModel extends AndroidViewModel {
 

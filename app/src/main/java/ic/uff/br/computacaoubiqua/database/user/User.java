@@ -10,20 +10,16 @@ import android.support.annotation.NonNull;
 @Entity(indices = {@Index(value = {"mac_address"}, unique = true)})
 public class User {
 
-    @PrimaryKey(autoGenerate = true)
-    private int uid;
-
-    @ColumnInfo(name = "first_name")
-    @NonNull
-    private String firstName;
-
-    @ColumnInfo(name = "last_name")
-    @NonNull
-    private String lastName;
-
+    @PrimaryKey
     @ColumnInfo(name = "mac_address")
     @NonNull
     private String macAddress;
+
+    @ColumnInfo(name = "first_name")
+    private String firstName;
+
+    @ColumnInfo(name = "last_name")
+    private String lastName;
 
     @ColumnInfo(name = "description")
     private String description;
@@ -34,21 +30,13 @@ public class User {
     @ColumnInfo(name = "place")
     private String place;
 
-    public User(@NonNull String firstName, @NonNull String lastName, @NonNull String macAddress, String description, String kinship, String place) {
+    public User(String firstName, String lastName, @NonNull String macAddress, String description, String kinship, String place) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.macAddress = macAddress;
         this.description = description;
         this.kinship = kinship;
         this.place = place;
-    }
-
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
     }
 
     public String getFirstName() {

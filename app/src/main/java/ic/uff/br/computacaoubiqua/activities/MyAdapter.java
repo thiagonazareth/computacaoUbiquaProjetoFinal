@@ -13,28 +13,25 @@ import ic.uff.br.computacaoubiqua.database.user.User;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private List<User> mValues;
+    private List<User> userList;
 //    private final OnListFragmentInteractionListener mListener;
 
-    public MyAdapter(List<User> items) {
-        mValues = items;
+    public MyAdapter(List<User> userList) {
+        this.userList = userList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_item, parent, false);
-
-
-
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getUid()));
-        holder.mContentView.setText(mValues.get(position).getFirstName());
+        holder.user = userList.get(position);
+        String exibeNome = holder.user.getFirstName() != null ? holder.user.getFirstName() : holder.user.getMacAddress();
+        holder.mContentView.setText(exibeNome);
 
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -50,24 +47,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return userList.size();
     }
 
     public void setUsers(List<User> userList) {
-        this.mValues = userList;
+        this.userList = userList;
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
-        public User mItem;
+        public User user;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 

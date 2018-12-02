@@ -92,14 +92,10 @@ public class BluetoothService extends Service {
                     public void run() {
                         User user = AppDatabase.getInstance(BluetoothService.this).userDao().findByMacAddress(device.getAddress().trim());
                         if (user == null){
-                            String first_name = device.getName();
-                            if (first_name == null){ //as vezes getName vem vazio (null)
-                                first_name = "NULO";
-                            }
-                            AppDatabase.getInstance(BluetoothService.this).userDao().insertAll(new User(first_name,"TESTE",device.getAddress(),"É um cara bem legal", "eu mesmo", "maternidade"));
+                            AppDatabase.getInstance(BluetoothService.this).userDao().insertAll(new User(device.getName(),null, device.getAddress(),"É um cara bem legal", "eu mesmo", "maternidade"));
                         }
                         for (User u: AppDatabase.getInstance(BluetoothService.this).userDao().getAll()) {
-                            Log.d("SERVICO", u.getUid() + " " + u.getFirstName() + " " + u.getLastName() + " " + u.getMacAddress());
+                            Log.d("SERVICO",  u.getFirstName() + " " + u.getLastName() + " " + u.getMacAddress());
                         }
                     }
                 });

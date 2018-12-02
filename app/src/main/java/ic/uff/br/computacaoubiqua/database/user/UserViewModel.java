@@ -16,9 +16,6 @@ public class UserViewModel extends AndroidViewModel {
 
     public UserViewModel(@NonNull Application application) {
         super(application);
-
-//        AppDatabase.getInstance(getApplication()).userDao().insertAll(new User(first_name,"TESTE",device.getAddress(),"É um cara bem legal", "eu mesmo", "maternidade"));
-
         userList = AppDatabase.getInstance(getApplication()).userDao().getAllinLiveData();
     }
 

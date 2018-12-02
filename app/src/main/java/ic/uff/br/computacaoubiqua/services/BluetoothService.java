@@ -55,31 +55,16 @@ public class BluetoothService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        // If there are paired devices
-        if (pairedDevices.size() > 0) {
-            // Loop through paired devices
-            Log.d("ComputacaoUbiqua", "Dispositivos PAREADOS");
-            for (BluetoothDevice device : pairedDevices) {
-                // Add the name and address to an array adapter to show in a ListView
-//                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-                Log.d("ComputacaoUbiqua", device.getName() + " -- " + device.getAddress());
-//                Toast.makeText(MainActivity.this, device.getName() + " -- " + device.getAddress(), Toast.LENGTH_LONG).show();
-            }
-        }
-
-
-        createNotificationChannel();
-
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, filter);
+
+        createNotificationChannel();
 
         startTimer();
 
         //start sticky means service will be explicity started and stopped
         return START_STICKY;
-
     }
 
     @Override
@@ -99,11 +84,6 @@ public class BluetoothService extends Service {
                 final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // Add the name and address to an array adapter to show in a ListView
 //                mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-                Log.d("ComputacaoUbiqua", "Dispositivos ENCONTRADO");
-                Log.d("ComputacaoUbiqua", device.getName() + " --AQUI-- " + device.getAddress());
-//                Toast.makeText(BluetoothService.this, device.getName() + " -AQUI- " + device.getAddress(), Toast.LENGTH_SHORT).show();
-
-
 
                 //procura na base
                 //https://stackoverflow.com/questions/44167111/android-room-simple-select-query-cannot-access-database-on-the-main-thread
@@ -119,7 +99,7 @@ public class BluetoothService extends Service {
                             AppDatabase.getInstance(BluetoothService.this).userDao().insertAll(new User(first_name,"TESTE",device.getAddress(),"É um cara bem legal", "eu mesmo", "maternidade"));
                         }
                         for (User u: AppDatabase.getInstance(BluetoothService.this).userDao().getAll()) {
-                            Log.i("USER-NAME", u.getUid() + " " + u.getFirstName() + " " + u.getLastName() + " " + u.getMacAddress());
+                            Log.d("SERVICO", u.getUid() + " " + u.getFirstName() + " " + u.getLastName() + " " + u.getMacAddress());
                         }
                     }
                 });

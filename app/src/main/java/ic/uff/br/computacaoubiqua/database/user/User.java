@@ -8,13 +8,11 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Relation;
 import android.support.annotation.NonNull;
 
-<<<<<<< HEAD
-import java.util.List;
 
+import java.util.List;
 import ic.uff.br.computacaoubiqua.database.visit.Visit;
-=======
 import java.io.Serializable;
->>>>>>> e64afd01e9de19dc7a5058666b1e86b091cba6d5
+
 
 @Entity
 public class User implements Serializable {

@@ -1,15 +1,11 @@
 package ic.uff.br.computacaoubiqua.activities;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import ic.uff.br.computacaoubiqua.R;
-import ic.uff.br.computacaoubiqua.services.BluetoothService;
 
 public class TelaAbertura extends AppCompatActivity {
 
@@ -28,7 +24,7 @@ public class TelaAbertura extends AppCompatActivity {
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent minhaAcao = new Intent(TelaAbertura.this, Home.class);
+                Intent minhaAcao = new Intent(TelaAbertura.this, HomeActivity.class);
                 TelaAbertura.this.startActivity(minhaAcao);
                 TelaAbertura.this.finish();
             }

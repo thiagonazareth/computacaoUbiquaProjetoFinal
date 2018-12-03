@@ -1,5 +1,6 @@
 package ic.uff.br.computacaoubiqua.adapters;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 import ic.uff.br.computacaoubiqua.R;
+import ic.uff.br.computacaoubiqua.activities.DetailActivity;
+import ic.uff.br.computacaoubiqua.activities.HomeActivity;
+import ic.uff.br.computacaoubiqua.activities.Relatorio;
+import ic.uff.br.computacaoubiqua.activities.ui.detail.DetailFragment;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;
 
@@ -42,7 +47,10 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Log.d("DEVICE ADAPTER", "CLICK: " + exibeNome);
-                new UserInsertAsyncTask().execute(holder);
+//                new UserInsertAsyncTask().execute(holder);
+                Intent intent = new Intent(holder.mView.getContext(), DetailActivity.class);
+                intent.putExtra(DetailActivity.ARG_USER, holder.user);
+                holder.mView.getContext().startActivity(intent);
             }
         });
     }

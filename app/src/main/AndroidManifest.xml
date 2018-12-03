@@ -4,9 +4,8 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -15,17 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service
             android:name=".services.BluetoothService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_tela_abertura"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.UltimasVisitas"
             android:label="Ultimas Visitas"
@@ -35,20 +31,15 @@
         <activity
             android:name=".activities.HomeActivity"
             android:label="Home"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.Relatorio"
             android:label="Relatorio"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.ExibeVisita"
             android:label="Você sabe quem é?">
         </activity>
-
 
         <activity
             android:name=".activities.TelaAbertura"
@@ -60,8 +51,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".activities.DetailActivity"
+            android:label="Person Detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

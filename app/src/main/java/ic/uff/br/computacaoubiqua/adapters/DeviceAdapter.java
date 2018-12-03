@@ -1,6 +1,5 @@
-package ic.uff.br.computacaoubiqua.activities;
+package ic.uff.br.computacaoubiqua.adapters;
 
-import android.bluetooth.BluetoothDevice;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,7 +18,6 @@ import java.util.Map;
 import ic.uff.br.computacaoubiqua.R;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;
-import ic.uff.br.computacaoubiqua.services.BluetoothService;
 
 
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder> {

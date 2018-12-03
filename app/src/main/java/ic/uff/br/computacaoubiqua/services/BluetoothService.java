@@ -20,12 +20,11 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import ic.uff.br.computacaoubiqua.R;
-import ic.uff.br.computacaoubiqua.activities.DeviceAdapter;
+import ic.uff.br.computacaoubiqua.adapters.DeviceAdapter;
 import ic.uff.br.computacaoubiqua.activities.ExibeVisita;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;

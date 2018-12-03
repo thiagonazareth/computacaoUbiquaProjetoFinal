@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             BluetoothService.LocalBinder binder = (BluetoothService.LocalBinder) service;
             bluetoothService = binder.getService();
-            bluetoothService.setAdapter(PlaceholderFragment.deviceAdaptor);
+            PlaceholderFragment.recyclerView.setAdapter(bluetoothService.getAdapter());
             mBound = true;
         }
 
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final int TAB_SECTION_KNOW_PERSONS = 1;
         private static final int TAB_SECTION_DEVICES = 2;
-        private  static DeviceAdapter deviceAdaptor = new DeviceAdapter();
+        private static RecyclerView recyclerView;
 
         public PlaceholderFragment() {
         }
@@ -194,8 +195,10 @@ public class MainActivity extends AppCompatActivity {
             else if (getArguments().getInt(ARG_SECTION_NUMBER) == TAB_SECTION_DEVICES){
 
                 if (rootView instanceof RecyclerView) {
-                    final RecyclerView recyclerView = (RecyclerView) rootView;
-                    recyclerView.setAdapter(deviceAdaptor);
+                    recyclerView = (RecyclerView) rootView;
+                    if (mBound) {
+                        recyclerView.setAdapter(bluetoothService.getAdapter());
+                    }
                 }
 
             }

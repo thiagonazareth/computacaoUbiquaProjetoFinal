@@ -1,9 +1,11 @@
 package ic.uff.br.computacaoubiqua.activities;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,19 +31,18 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.user = userList.get(position);
-        String exibeNome = holder.user.getFirstName() + " " + holder.user.getLastName();
-        holder.mContentView.setText(exibeNome);
 
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-//                }
-//            }
-//        });
+        String first_name = holder.user.getFirstName() != null ? holder.user.getFirstName() : holder.user.getDeviceName();
+        String last_name = holder.user.getLastName() != null ? holder.user.getLastName() : holder.user.getMacAddress();
+        String exibe_nome = first_name != null ? first_name : last_name;
+        holder.mContentView.setText(exibe_nome);
+
+        holder.mButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("PERSON ADAPTER", "CLICK: " + exibe_nome);
+            }
+        });
     }
 
     @Override
@@ -57,12 +58,14 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mContentView;
+        public final Button mButtonView;
         public User user;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mContentView = (TextView) view.findViewById(R.id.content);
+            mButtonView = (Button) view.findViewById(R.id.button);
         }
 
         @Override

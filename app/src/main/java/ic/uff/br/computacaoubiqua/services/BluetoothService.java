@@ -45,8 +45,8 @@ public class BluetoothService extends Service {
     TextToSpeech t1;
     TextToSpeech t2;
 
-    public void setAdapter(DeviceAdapter deviceAdapter) {
-        this.deviceAdapter = deviceAdapter;
+    public DeviceAdapter getAdapter(){
+        return this.deviceAdapter;
     }
 
     public class LocalBinder extends Binder {
@@ -90,12 +90,12 @@ public class BluetoothService extends Service {
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Get the BluetoothDevice object from the Intent
                 final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                new DataBaseQuery().execute(device);
+                new UserQueryAsyncTask().execute(device);
             }
         }
     };
 
-    private class DataBaseQuery extends AsyncTask<BluetoothDevice, Integer, User> {
+    private class UserQueryAsyncTask extends AsyncTask<BluetoothDevice, Integer, User> {
         protected User doInBackground(BluetoothDevice... devices) {
             if (devices.length > 0) {
                 User user = AppDatabase.getInstance(BluetoothService.this).userDao().findByMacAddress(devices[0].getAddress());

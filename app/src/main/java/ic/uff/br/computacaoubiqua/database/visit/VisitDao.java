@@ -16,8 +16,8 @@ public interface VisitDao {
     @Query("SELECT * FROM visit order by date")
     List<Visit> getAll();
 
-    @Query("SELECT * FROM visit WHERE uid IN (:visitsIds)")
-    List<User> loadAllByIds(int[] visitsIds);
+    @Query("SELECT * FROM visit WHERE id IN (:ids)")
+    List<Visit> loadAllByIds(int[] ids);
 
     @Insert
     void insertAll(Visit... visits);

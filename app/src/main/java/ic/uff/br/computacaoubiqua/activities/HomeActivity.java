@@ -123,17 +123,14 @@ public class HomeActivity extends AppCompatActivity {
 			}
 		});
 //
-//		final ImageView ultimasVisitas = (ImageView) findViewById(R.id.img_meus_amigos);
-//		ultimasVisitas.setImageResource(R.drawable.button_meus_amigos);
-//		ultimasVisitas.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				ultimasVisitas
-//						.setImageResource(R.drawable.button_meus_amigos_hover);
-//				Intent intent = new Intent(HomeActivity.this, UltimasVisitas.class);
-//
-//				startActivity(intent);
-//			}
-//		});
+		final ImageView ultimasVisitas = (ImageView) findViewById(R.id.img_ultimas_visitas);
+
+		ultimasVisitas.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this, UltimasVisitas.class);
+				startActivity(intent);
+			}
+		});
 //
 //		final ImageView configurarAlerta = (ImageView) findViewById(R.id.img_meus_avisos);
 //		configurarAlerta.setImageResource(R.drawable.button_avisa_ai);

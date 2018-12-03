@@ -27,6 +27,12 @@
         </activity>
 
         <activity
+            android:name=".activities.UltimasVisitas"
+            android:label="Ultimas Visitas"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".activities.HomeActivity"
             android:label="Home"
             android:theme="@style/AppTheme.NoActionBar">
@@ -40,7 +46,7 @@
 
         <activity
             android:name=".activities.ExibeVisita"
-            android:label="Exibe Visita">
+            android:label="Você sabe quem é?">
         </activity>
 
 

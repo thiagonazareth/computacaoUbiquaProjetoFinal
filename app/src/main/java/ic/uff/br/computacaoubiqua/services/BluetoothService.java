@@ -100,6 +100,8 @@ public class BluetoothService extends Service {
                 User user = AppDatabase.getInstance(BluetoothService.this).userDao().findByMacAddress(devices[0].getAddress());
                 if (user == null) {
                     return new User(null, null, devices[0].getAddress(), devices[0].getName(), null, null, null, null);
+                } else {
+                    createNotificationUserFound(user);
                 }
             }
             return null;
@@ -134,67 +136,13 @@ public class BluetoothService extends Service {
         timerTask = new TimerTask() {
             public void run() {
 
-                //use a handler to run a toast that shows the current timestamp
                 handler.post(new Runnable() {
                     public void run() {
-//                        Toast.makeText(MainActivity.this, "ENTROU NO LOOP", Toast.LENGTH_SHORT).show();
 
                         if (mBluetoothAdapter.startDiscovery()) {
 
-//                            t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-//                                @Override
-//                                public void onInit(int status) {
-//                                    if(status != TextToSpeech.ERROR) {
-//                                        t1.setLanguage(new Locale("pt", "BR"));
-//                                        //                    t1.setPitch(0.2f);
-//                                        //                    t1.setSpeechRate(0.8f);
-//                                        t1.setSpeechRate(0.5f);
-//                                        t1.speak("Tim, dom!", TextToSpeech.QUEUE_FLUSH, null);
-//                                        t1.setSpeechRate(1f);
-//
-//                                    }
-//                                }});
-//
-//                            t2=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-//                                @Override
-//                                public void onInit(int status) {
-//                                    if(status != TextToSpeech.ERROR) {
-//                                        t2.setLanguage(new Locale("pt", "BR"));
-//                                        //                    t1.setPitch(0.2f);
-//                                        //                    t1.setSpeechRate(0.8f);
-//
-//                                        t2.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-//                                    }
-//                                }});
-
-                            Intent intent = new Intent(getApplicationContext(), ExibeVisita.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-
-                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "1")
-                                    .setSmallIcon(R.drawable.ic_launcher)
-                                    .setContentTitle("Você tem uma nova visita.")
-                                    .setContentText("É o Sr Wilson. Clique aqui para ver sua foto.")
-                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                    // Set the intent that will fire when the user taps the notification
-                                    .setContentIntent(pendingIntent)
-                                    .setAutoCancel(true);
-//                            mBuilder.setLights(Color.BLUE, 500, 500);
-//                            long[] pattern = {500,500,500,500,500,500,500,500,500};
-//                            mBuilder.setVibrate(pattern);
-//                            mBuilder.setStyle(new NotificationCompat.InboxStyle());
-
-                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-
-
-                            // notificationId is a unique int for each notification that you must define
-                            notificationManager.notify(1, mBuilder.build());
-
-
-//                            Toast.makeText(MainActivity.this, "Iniciou", Toast.LENGTH_SHORT).show();
                         } else {
 
-//                            Toast.makeText(MainActivity.this, "Não rodou", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -214,6 +162,33 @@ public class BluetoothService extends Service {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private void createNotificationUserFound(User user){
+
+        Intent intent = new Intent(getApplicationContext(), ExibeVisita.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "1")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle("Você tem uma nova visita.")
+                .setContentText("É o " + user.getMacAddress() + ". Clique aqui para ver sua foto.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+//                            mBuilder.setLights(Color.BLUE, 500, 500);
+//                            long[] pattern = {500,500,500,500,500,500,500,500,500};
+//                            mBuilder.setVibrate(pattern);
+//                            mBuilder.setStyle(new NotificationCompat.InboxStyle());
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, mBuilder.build());
+
     }
 
 }

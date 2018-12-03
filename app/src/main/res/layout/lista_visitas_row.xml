@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_row_selector"
+    android:padding="4dp" >
+
+    <!-- Thumbnail Image -->
+
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/foto_visitante" />
+
+    <TextView
+        android:id="@+id/linha_trajeto_historico_viagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/horario_historico_viagem"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linha_trajeto_historico_viagem"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:textColor="@color/genre"
+        android:textSize="10dp" />
+
+</RelativeLayout>

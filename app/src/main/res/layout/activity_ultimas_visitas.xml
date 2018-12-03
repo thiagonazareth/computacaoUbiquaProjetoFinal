@@ -1,0 +1,52 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrool_layout_ultimas_visitas"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="-5dp"
+            android:background="@color/list_divider" />
+
+        <LinearLayout
+            android:id="@+id/layoutListaUltimasVisitas"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/label_visitas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="Últimas Visitas"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_blue"
+                android:textSize="22sp" />
+
+            <ListView
+                android:id="@+id/list_ultimas_visitas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:divider="@color/list_divider"
+                android:dividerHeight="1dp"
+                android:listSelector="@drawable/list_row_selector" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

@@ -5,7 +5,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import android.arch.persistence.room.Relation;
 import android.support.annotation.NonNull;
+
+import java.util.List;
+
+import ic.uff.br.computacaoubiqua.database.visit.Visit;
 
 @Entity
 public class User {

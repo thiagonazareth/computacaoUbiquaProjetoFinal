@@ -27,6 +27,9 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE mac_address LIKE :mac_address LIMIT 1")
     User findByMacAddress(String mac_address);
 
+    @Query("SELECT * FROM User")
+    public List<UserWithVisits> loadUsersWithVisits();
+
     @Insert
     void insertAll(User... users);
 

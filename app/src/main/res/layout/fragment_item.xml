@@ -27,6 +27,7 @@
         android:background="@color/colorPrimary"
         android:text="@string/btnAdd"
         android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

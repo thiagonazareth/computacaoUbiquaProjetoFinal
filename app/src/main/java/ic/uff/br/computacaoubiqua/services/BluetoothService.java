@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,7 +43,7 @@ public class BluetoothService extends Service {
     private DeviceAdapter deviceAdapter = new DeviceAdapter();
 
 
-    public String text = "Você está recebendo uma nova visita.";
+    public String textNotification = "Você está recebendo uma nova visita!";
     TextToSpeech t1;
     TextToSpeech t2;
 
@@ -175,21 +177,36 @@ public class BluetoothService extends Service {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "1")
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle("Você tem uma nova visita.")
-                .setContentText("É o " + user.getMacAddress() + ". Clique aqui para ver sua foto.")
+                .setContentText("É o " + user.getFirstName() + ". Clique aqui para ver sua foto.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
-//                            mBuilder.setLights(Color.BLUE, 500, 500);
-//                            long[] pattern = {500,500,500,500,500,500,500,500,500};
-//                            mBuilder.setVibrate(pattern);
-//                            mBuilder.setStyle(new NotificationCompat.InboxStyle());
+//        mBuilder.setLights(Color.BLUE, 500, 500);
+//        long[] pattern = {500,500,500,500,500,500,500,500,500};
+//        mBuilder.setVibrate(pattern);
+//        mBuilder.setStyle(new NotificationCompat.InboxStyle());
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
 
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, mBuilder.build());
+
+//        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+//            @Override
+//            public void onInit(int status) {
+//                if(status != TextToSpeech.ERROR) {
+//                    t1.setLanguage(new Locale("pt", "BR"));
+//                    //                    t1.setPitch(0.2f);
+//                    //                    t1.setSpeechRate(0.8f);
+//
+//                    t1.speak(textNotification,
+//                            TextToSpeech.QUEUE_FLUSH, null);
+//
+//
+//                }
+//            }});
 
     }
 

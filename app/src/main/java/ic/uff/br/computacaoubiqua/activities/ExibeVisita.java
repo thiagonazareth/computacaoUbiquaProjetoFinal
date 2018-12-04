@@ -47,7 +47,7 @@ public class ExibeVisita extends AppCompatActivity {
 
         if (getIntent().hasExtra(ARG_USER)) {
             user = (User) getIntent().getSerializableExtra(ARG_USER);
-            txtPergunta.setText("Você se lembra do " + user.getMacAddress() + "?");
+            txtPergunta.setText("Você se lembra do " + user.getFirstName() + "?");
         }
 
         addListenerOnButtons();
@@ -139,13 +139,17 @@ public class ExibeVisita extends AppCompatActivity {
         //define um botão como positivo
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(ExibeVisita.this, "positivo=" + arg1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExibeVisita.this, "A porta foi aberta!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ExibeVisita.this,
+                        HomeActivity.class);
+
+                startActivity(intent);
             }
         });
         //define um botão como negativo.
         builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(ExibeVisita.this, "negativo=" + arg1, Toast.LENGTH_SHORT).show();
+
             }
         });
         //cria o AlertDialog

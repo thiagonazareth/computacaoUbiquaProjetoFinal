@@ -132,18 +132,17 @@ public class HomeActivity extends AppCompatActivity {
 			}
 		});
 //
-//		final ImageView configurarAlerta = (ImageView) findViewById(R.id.img_meus_avisos);
-//		configurarAlerta.setImageResource(R.drawable.button_avisa_ai);
-//		configurarAlerta.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				configurarAlerta.setImageResource(R.drawable.button_avisa_ai_hover);
-//				Intent intent = new Intent(HomeActivity.this,
-//						ConfigurarAlerta.class);
-//
-//				startActivity(intent);
-//			}
-//		});
-//
+		final ImageView configurarAlerta = (ImageView) findViewById(R.id.img_configurar_alerta);
+
+		configurarAlerta.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this,
+						AlertaActivity.class);
+
+				startActivity(intent);
+			}
+		});
+
 		final ImageView relatorios = (ImageView) findViewById(R.id.img_relatorio);
 
 		relatorios.setOnClickListener(new OnClickListener() {
@@ -157,6 +156,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 	}
+
 
 
 }

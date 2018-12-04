@@ -1,5 +1,6 @@
 package ic.uff.br.computacaoubiqua.database.visit;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -15,6 +16,9 @@ public interface VisitDao {
 
     @Query("SELECT * FROM visit order by date")
     List<Visit> getAll();
+
+    @Query("SELECT * FROM visit order by date")
+    LiveData<List<Visit>> getAllinLiveData();
 
     @Query("SELECT * FROM visit WHERE id IN (:ids)")
     List<Visit> loadAllByIds(int[] ids);

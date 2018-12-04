@@ -19,7 +19,7 @@ import ic.uff.br.computacaoubiqua.database.user.UserViewModel;
 
 public class DetailFragment extends Fragment {
 
-    //    private UserViewModel mViewModel;
+    //    private VisitViewModel mViewModel;
     private Activity activity;
 
     public static DetailFragment newInstance() {
@@ -47,7 +47,7 @@ public class DetailFragment extends Fragment {
 //    @Override
 //    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 //        super.onActivityCreated(savedInstanceState);
-//        mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+//        mViewModel = ViewModelProviders.of(this).get(VisitViewModel.class);
 //        // TODO: Use the ViewModel
 //    }
 

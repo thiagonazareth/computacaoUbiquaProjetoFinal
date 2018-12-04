@@ -24,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ic.uff.br.computacaoubiqua.R;
+import ic.uff.br.computacaoubiqua.activities.DetailActivity;
 import ic.uff.br.computacaoubiqua.adapters.DeviceAdapter;
 import ic.uff.br.computacaoubiqua.activities.ExibeVisita;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
@@ -167,6 +168,7 @@ public class BluetoothService extends Service {
     private void createNotificationUserFound(User user){
 
         Intent intent = new Intent(getApplicationContext(), ExibeVisita.class);
+        intent.putExtra(ExibeVisita.ARG_USER, user);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 

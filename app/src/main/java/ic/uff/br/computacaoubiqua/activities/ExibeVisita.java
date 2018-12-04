@@ -3,12 +3,16 @@ package ic.uff.br.computacaoubiqua.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 
 import ic.uff.br.computacaoubiqua.R;
+import ic.uff.br.computacaoubiqua.database.AppDatabase;
+import ic.uff.br.computacaoubiqua.database.user.User;
+import ic.uff.br.computacaoubiqua.database.visit.Visit;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,20 +23,32 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class ExibeVisita extends AppCompatActivity {
 
     TextView buttonNao;
     TextView buttonSim;
+    TextView txtPergunta;
     ImageView image;
     TextToSpeech t1;
     private AlertDialog alerta;
+    public static final String ARG_USER = "user";
+    public User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exibe_visita);
+
+        txtPergunta = (TextView) findViewById(R.id.txtPergunta);
+
+        if (getIntent().hasExtra(ARG_USER)) {
+            user = (User) getIntent().getSerializableExtra(ARG_USER);
+            txtPergunta.setText("Você se lembra do " + user.getMacAddress() + "?");
+        }
 
         addListenerOnButtons();
 
@@ -62,6 +78,17 @@ public class ExibeVisita extends AppCompatActivity {
             public void onClick(View arg0) {
                 speakPermissionToOpenDoor();
                 askForOpenDoor();
+                Visit visit = new Visit(new Date(), 1, user.getMacAddress());
+
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Get Data
+                        AppDatabase.getInstance(getApplicationContext()).visitDao().insertAll(visit);
+                        List<Visit> visitas = AppDatabase.getInstance(getApplicationContext()).visitDao().getAll();
+                    }
+                });
+
             }
 
         });

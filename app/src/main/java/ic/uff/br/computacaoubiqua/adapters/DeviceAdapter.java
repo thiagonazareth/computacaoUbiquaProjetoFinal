@@ -48,9 +48,9 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Log.d("DEVICE ADAPTER", "CLICK: " + exibeNome);
-//                new UserInsertAsyncTask().execute(holder);
                 Intent intent = new Intent(holder.mView.getContext(), DetailActivity.class);
                 intent.putExtra(DetailActivity.ARG_USER, holder.user);
+                intent.putExtra(DetailActivity.ARG_FRAG_DETAIL, "1");
                 holder.mView.getContext().startActivity(intent);
             }
         });

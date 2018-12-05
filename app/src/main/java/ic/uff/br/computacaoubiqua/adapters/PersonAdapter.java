@@ -1,6 +1,7 @@
 package ic.uff.br.computacaoubiqua.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ic.uff.br.computacaoubiqua.R;
+import ic.uff.br.computacaoubiqua.activities.DetailActivity;
 import ic.uff.br.computacaoubiqua.activities.MainActivity;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;
@@ -48,6 +51,17 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                 Log.d("PERSON ADAPTER", "CLICK: " + exibe_nome);
             }
         });
+
+        holder.mButtonView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("PERSON ADAPTER", "CLICK VIEW: " + exibe_nome);
+                Intent intent = new Intent(holder.mView.getContext(), DetailActivity.class);
+                intent.putExtra(DetailActivity.ARG_USER, holder.user);
+                intent.putExtra(DetailActivity.ARG_FRAG_DETAIL_PERSON, "2");
+                holder.mView.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -64,6 +78,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         public final View mView;
         public final TextView mContentView;
         public final Button mButtonView;
+        public final Button mButtonView2;
         public User user;
 
         public ViewHolder(View view) {
@@ -71,6 +86,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             mView = view;
             mContentView = (TextView) view.findViewById(R.id.content);
             mButtonView = (Button) view.findViewById(R.id.button);
+            mButtonView2 = (Button) view.findViewById(R.id.button2);
         }
 
         @Override

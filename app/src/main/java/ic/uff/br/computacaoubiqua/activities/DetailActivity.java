@@ -5,11 +5,14 @@ import android.os.Bundle;
 
 import ic.uff.br.computacaoubiqua.R;
 import ic.uff.br.computacaoubiqua.activities.ui.detail.DetailFragment;
+import ic.uff.br.computacaoubiqua.activities.ui.detail.DetailPersonFragment;
 import ic.uff.br.computacaoubiqua.database.user.User;
 
 public class DetailActivity extends AppCompatActivity {
 
     public static final String ARG_USER = "user";
+    public static final String ARG_FRAG_DETAIL = "detail";
+    public static final String ARG_FRAG_DETAIL_PERSON = "detail_person";
     public User user;
 
     @Override
@@ -25,9 +28,16 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, DetailFragment.newInstance())
-                    .commitNow();
+            if (getIntent().hasExtra(ARG_FRAG_DETAIL)) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, DetailFragment.newInstance())
+                        .commitNow();
+            }
+            else if (getIntent().hasExtra(ARG_FRAG_DETAIL_PERSON)) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, DetailPersonFragment.newInstance())
+                        .commitNow();
+            }
         }
     }
 }

@@ -118,7 +118,7 @@ public class ImageUtils {
         return rotatedBitmap;
     }
 
-    private Bitmap decodeFile(File f) throws Exception{
+    public static Bitmap decodeFile(File f) throws Exception{
         Bitmap b = null;
 
         //Decode image size

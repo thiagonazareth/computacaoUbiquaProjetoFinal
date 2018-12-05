@@ -6,5 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="btnDelete">Excluir</string>
+    <string name="btnVer">Ver</string>
     <string name="btnAdd">Incluir</string>
+    <string name="ExcluirPessoa">Excluir pessoa</string>
+    <string name="VerPessoa">Ver pessoa</string>
 </resources>

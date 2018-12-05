@@ -3,8 +3,8 @@
     <string name="title_activity_tela_abertura">Alzheimer Help</string>
     <string name="tab_text_1">Pessoas conhecidas</string>
     <string name="tab_text_2">Encontrar pessoas</string>
-    <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="btnAdd">Add</string>
+    <string name="btnDelete">Excluir</string>
+    <string name="btnAdd">Incluir</string>
 </resources>

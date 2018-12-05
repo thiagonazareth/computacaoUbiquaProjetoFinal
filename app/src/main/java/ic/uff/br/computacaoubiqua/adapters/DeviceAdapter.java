@@ -1,5 +1,6 @@
 package ic.uff.br.computacaoubiqua.adapters;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +66,11 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void remove(User user){
+        userMap.remove(user.getMacAddress());
+        notifyDataSetChanged();
+    }
+
     public List<User> getUserList() {
         return new ArrayList<User>(userMap.values());
     }
@@ -85,24 +91,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
-        }
-    }
-
-    private class UserInsertAsyncTask extends AsyncTask<ViewHolder, Integer, ViewHolder> {
-        protected ViewHolder doInBackground(ViewHolder... holders) {
-            if (holders.length > 0) {
-                AppDatabase.getInstance(holders[0].mView.getContext()).userDao().insertAll(holders[0].user);
-                return holders[0];
-            }
-            return null;
-        }
-
-        protected void onPostExecute(ViewHolder holder) {
-            if (holder != null){
-                userMap.remove(holder.user.getMacAddress());
-                notifyDataSetChanged();
-                Toast.makeText(holder.mView.getContext(), "Pessoa adicionada às PESSOAS CONHECIDAS!", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 

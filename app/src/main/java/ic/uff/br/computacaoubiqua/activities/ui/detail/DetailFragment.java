@@ -36,6 +36,7 @@ import java.util.Date;
 import ic.uff.br.computacaoubiqua.R;
 import ic.uff.br.computacaoubiqua.activities.DetailActivity;
 import ic.uff.br.computacaoubiqua.activities.MainActivity;
+import ic.uff.br.computacaoubiqua.adapters.DeviceAdapter;
 import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;
 import ic.uff.br.computacaoubiqua.utils.ImageUtils;
@@ -150,6 +151,9 @@ public class DetailFragment extends Fragment {
 
         protected void onPostExecute(User user) {
             if (user != null){
+                if (MainActivity.deviceAdapter != null && MainActivity.deviceAdapter instanceof DeviceAdapter) {
+                    ((DeviceAdapter) MainActivity.deviceAdapter).remove(user);
+                }
                 Toast.makeText(getActivity(), "Pessoa adicionada às PESSOAS CONHECIDAS!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);

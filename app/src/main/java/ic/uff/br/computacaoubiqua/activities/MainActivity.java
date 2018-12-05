@@ -1,5 +1,6 @@
 package ic.uff.br.computacaoubiqua.activities;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static BluetoothService bluetoothService;
     public static boolean mBound = false;
-
+    public static RecyclerView.Adapter deviceAdapter;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             BluetoothService.LocalBinder binder = (BluetoothService.LocalBinder) service;
             bluetoothService = binder.getService();
             PlaceholderFragment.recyclerView.setAdapter(bluetoothService.getAdapter());
+            deviceAdapter = bluetoothService.getAdapter();
             mBound = true;
         }
 
@@ -170,31 +172,35 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            // getArguments().getInt(ARG_SECTION_NUMBER)
-            // Set the adapter
+
+            View rootView = null;
 
             if (getArguments().getInt(ARG_SECTION_NUMBER) == TAB_SECTION_KNOW_PERSONS) {
 
-                PersonAdapter myLocalAdapter = new PersonAdapter();
+                rootView = inflater.inflate(R.layout.fragment_main_person, container, false);
+
+                PersonAdapter personAdapter = new PersonAdapter();
 
                 if (rootView instanceof RecyclerView) {
                     final RecyclerView recyclerView = (RecyclerView) rootView;
-                    recyclerView.setAdapter(myLocalAdapter);
+                    recyclerView.setAdapter(personAdapter);
                 }
 
                 UserViewModel viewModel =
                         ViewModelProviders.of(this).get(UserViewModel.class);
 
                 viewModel.getUsers().observe(
-                        PlaceholderFragment.this, myLocalAdapter::setUsers);
+                        PlaceholderFragment.this, personAdapter::setUsers);
             }
             else if (getArguments().getInt(ARG_SECTION_NUMBER) == TAB_SECTION_DEVICES){
+
+                rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
                 if (rootView instanceof RecyclerView) {
                     recyclerView = (RecyclerView) rootView;
                     if (mBound) {
                         recyclerView.setAdapter(bluetoothService.getAdapter());
+                        deviceAdapter = bluetoothService.getAdapter();
                     }
                 }
 
@@ -223,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 2 total pages.
+            return 2;
         }
     }
 

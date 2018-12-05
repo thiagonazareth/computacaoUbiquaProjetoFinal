@@ -3,6 +3,7 @@ package ic.uff.br.computacaoubiqua.activities.ui.detail;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,10 +102,9 @@ public class DetailFragment extends Fragment {
                         editTextPlace.getText().toString(),
                         photoPath);
 
-                new UserInsertAsyncTask().execute(new ViewAndUserHelper(view.getContext(), user));
+                new UserInsertAsyncTask().execute(user);
             }
         });
-
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,39 +124,36 @@ public class DetailFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            photoPath = ImageUtils.getImagePath(getContext(),imageBitmap);
             img.setImageBitmap(imageBitmap);
+
+            String[] fileColumns = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, fileColumns, null, null, null);
+            cursor.moveToFirst();
+            int cIndex = cursor.getColumnIndex(fileColumns[0]);
+            photoPath = cursor.getString(cIndex);
+            cursor.close();
             Log.d("PHOTO", photoPath);
         }
     }
 
-    private class UserInsertAsyncTask extends AsyncTask<ViewAndUserHelper, Integer, ViewAndUserHelper> {
-        protected ViewAndUserHelper doInBackground(ViewAndUserHelper... vwusers) {
-            if (vwusers.length > 0) {
-                AppDatabase.getInstance(getActivity()).userDao().insertAll(vwusers[0].user);
-                return vwusers[0];
+    private class UserInsertAsyncTask extends AsyncTask<User, Integer, User> {
+        protected User doInBackground(User... users) {
+            if (users.length > 0) {
+                AppDatabase.getInstance(getActivity()).userDao().insertAll(users[0]);
+                return users[0];
             }
             return null;
         }
 
-        protected void onPostExecute(ViewAndUserHelper vwuser) {
-            if (vwuser != null){
+        protected void onPostExecute(User user) {
+            if (user != null){
                 Toast.makeText(getActivity(), "Pessoa adicionada às PESSOAS CONHECIDAS!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(vwuser.context, MainActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
-        }
-    }
-
-    private class ViewAndUserHelper {
-        Context context;
-        User user;
-
-        private ViewAndUserHelper(Context context, User user) {
-            this.context = context;
-            this.user = user;
         }
     }
 

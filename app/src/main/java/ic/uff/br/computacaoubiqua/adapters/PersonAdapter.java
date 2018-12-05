@@ -37,8 +37,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         String exibe_nome = first_name != null ? first_name : last_name;
         holder.mContentView.setText(exibe_nome);
 
-        Log.d("PATH", holder.user.getPhotoPath());
-
         holder.mButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

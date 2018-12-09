@@ -2,8 +2,10 @@ package ic.uff.br.computacaoubiqua.activities.ui.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 
 import ic.uff.br.computacaoubiqua.R;
 import ic.uff.br.computacaoubiqua.activities.DetailActivity;
@@ -46,11 +49,6 @@ public class DetailPersonFragment extends Fragment {
 
     public static DetailPersonFragment newInstance() {
         return new DetailPersonFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -78,17 +76,7 @@ public class DetailPersonFragment extends Fragment {
 
         imgView = ((ImageView) view.findViewById(R.id.imageView));
 
-        if (activity.user.getPhotoPath() != null) {
-
-            File f = new File(activity.user.getPhotoPath());
-            try {
-                Bitmap bitmap = ImageUtils.decodeFile(f);
-                imgView.setImageBitmap(bitmap);
-            }
-            catch(Exception e){
-
-            }
-         }
+        ImageUtils.showImage(activity, activity.user.getPhotoPath(), imgView);
 
         return view;
     }

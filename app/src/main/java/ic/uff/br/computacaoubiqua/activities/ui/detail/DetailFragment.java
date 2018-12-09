@@ -1,20 +1,13 @@
 package ic.uff.br.computacaoubiqua.activities.ui.detail;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import ic.uff.br.computacaoubiqua.R;
 import ic.uff.br.computacaoubiqua.activities.DetailActivity;
@@ -46,9 +31,7 @@ import static android.app.Activity.RESULT_OK;
 public class DetailFragment extends Fragment {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private String photoPath;
 
-    private Activity activity;
     private TextView txViewdeviceName;
     private TextView txViewMacAddress;
     private EditText editTextFirstName;
@@ -57,7 +40,8 @@ public class DetailFragment extends Fragment {
     private EditText editTextKindship;
     private EditText editTextPlace;
     private Button btnSavePerson;
-    private ImageView img;
+    private ImageView imageView;
+    private String photoPath;
 
     public static DetailFragment newInstance() {
         return new DetailFragment();
@@ -87,7 +71,14 @@ public class DetailFragment extends Fragment {
         editTextKindship = ((EditText) view.findViewById(R.id.editTextKindship));
         editTextPlace = ((EditText) view.findViewById(R.id.editTextPlace));
 
-        img = ((ImageView) view.findViewById(R.id.imageView));
+        imageView = ((ImageView) view.findViewById(R.id.imageView));
+
+        if (savedInstanceState != null) {
+            photoPath = savedInstanceState.getString("photoPath");
+            if (photoPath != null) {
+                ImageUtils.showImage(activity, photoPath, imageView);
+            }
+        }
 
         btnSavePerson = (Button) view.findViewById(R.id.btnSavePerson);
 
@@ -107,14 +98,13 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        img.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-
             }
         });
 
@@ -125,17 +115,10 @@ public class DetailFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Uri selectedImageUri = data.getData();
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            img.setImageBitmap(imageBitmap);
-
-            String[] fileColumns = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, fileColumns, null, null, null);
-            cursor.moveToFirst();
-            int cIndex = cursor.getColumnIndex(fileColumns[0]);
-            photoPath = cursor.getString(cIndex);
-            cursor.close();
+            imageView.setImageBitmap(imageBitmap);
+            photoPath  = ImageUtils.getImagePath(getActivity(), data.getData());
             Log.d("PHOTO", photoPath);
         }
     }
@@ -159,6 +142,12 @@ public class DetailFragment extends Fragment {
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("photoPath", photoPath);
     }
 
 }

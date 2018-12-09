@@ -14,7 +14,8 @@ import ic.uff.br.computacaoubiqua.database.user.User;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(onDelete = CASCADE, entity = User.class,
+
+@Entity(foreignKeys = @ForeignKey( onDelete = CASCADE, entity = User.class,
         parentColumns = "mac_address",
         childColumns = "user_id"))
 

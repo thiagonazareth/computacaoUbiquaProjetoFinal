@@ -41,8 +41,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activities.ExibeVisita"
-            android:label="Você sabe quem é?"
-            android:noHistory="true">
+            android:label="Você sabe quem é?">
         </activity>
         <activity
             android:name=".activities.AlertaActivity"

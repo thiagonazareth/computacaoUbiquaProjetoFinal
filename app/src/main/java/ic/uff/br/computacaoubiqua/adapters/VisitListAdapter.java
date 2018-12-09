@@ -2,6 +2,7 @@ package ic.uff.br.computacaoubiqua.adapters;
 
 import android.content.Context;
 import android.graphics.Movie;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import ic.uff.br.computacaoubiqua.R;
+import ic.uff.br.computacaoubiqua.database.AppDatabase;
 import ic.uff.br.computacaoubiqua.database.user.User;
 import ic.uff.br.computacaoubiqua.database.visit.Visit;
 
@@ -28,10 +30,13 @@ public class VisitListAdapter extends RecyclerView.Adapter<VisitListAdapter.Visi
     private LayoutInflater layoutInflater;
     private List<Visit> visitList;
     private Context context;
+    User user;
+    Visit visit;
 
     public VisitListAdapter(Context context) {
         this.layoutInflater = LayoutInflater.from(context);
         this.context = context;
+
     }
 
     public void setvisitList(List<Visit> visitList) {
@@ -51,9 +56,26 @@ public class VisitListAdapter extends RecyclerView.Adapter<VisitListAdapter.Visi
             return;
         }
 
-        final Visit visit = visitList.get(position);
-        holder.txtVisitName.setText(visit.getMacAddress());
-        holder.txtVisitDate.setText(formatDate(visit.getVisitDate()));
+
+
+        visit = visitList.get(position);
+        PreencheDados preencheDados = new PreencheDados();
+        preencheDados.execute(holder);
+
+
+//        new AsyncTask<Void, Void, Void>() {
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                user = AppDatabase.getInstance(context).userDao().findByMacAddress(visit.getMacAddress());
+//
+//                return null;
+//            }
+//        }.execute();
+
+
+
+//        holder.txtVisitName.setText(visit.getMacAddress());
+//        holder.txtVisitDate.setText(formatDate(visit.getVisitDate()));
 
     }
 
@@ -84,6 +106,23 @@ public class VisitListAdapter extends RecyclerView.Adapter<VisitListAdapter.Visi
 
         String dateString = format.format(date);
         return dateString;
+    }
+
+    private class PreencheDados extends AsyncTask<VisitViewHolder, Void, VisitViewHolder> {
+        protected VisitViewHolder doInBackground(VisitViewHolder... holder) {
+
+            user = AppDatabase.getInstance(context).userDao().findByMacAddress(visit.getMacAddress());
+            return holder[0];
+        }
+
+        protected void onProgressUpdate() {
+
+        }
+
+        protected void onPostExecute(VisitViewHolder holder) {
+            holder.txtVisitName.setText(user.getFirstName() + " " + user.getLastName());
+            holder.txtVisitDate.setText(formatDate(visit.getVisitDate()));
+        }
     }
     
 }

@@ -104,7 +104,12 @@ public class BluetoothService extends Service {
                 if (user == null) {
                     return new User(null, null, devices[0].getAddress(), devices[0].getName(), null, null, null, null);
                 } else {
-                    createNotificationUserFound(user);
+//                    createNotificationUserFound(user);
+                    Intent intent = new Intent(BluetoothService.this, ExibeVisita.class);
+                    intent.putExtra(ExibeVisita.ARG_USER, user);
+                    intent.putExtra("ID", "1047");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    BluetoothService.this.startActivity(intent);
                 }
             }
             return null;
@@ -169,10 +174,11 @@ public class BluetoothService extends Service {
 
     private void createNotificationUserFound(User user){
 
-        Intent intent = new Intent(getApplicationContext(), ExibeVisita.class);
-        intent.putExtra(ExibeVisita.ARG_USER, user);
+        Intent intent = new Intent(BluetoothService.this, ExibeVisita.class);
+        intent.putExtra(ExibeVisita.ARG_USER, "");
+        intent.putExtra("ID", "1047");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(BluetoothService.this, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "1")
                 .setSmallIcon(R.drawable.ic_launcher)

@@ -39,15 +39,20 @@ public class ExibeVisita extends AppCompatActivity {
     public User user;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exibe_visita);
 
+        user = null;
         txtPergunta = (TextView) findViewById(R.id.txtPergunta);
 
         if (getIntent().hasExtra(ARG_USER)) {
             user = (User) getIntent().getSerializableExtra(ARG_USER);
+
+            String string = getIntent().getStringExtra("ID");
+
             txtPergunta.setText("Você se lembra do " + user.getFirstName() + "?");
+            getIntent().removeExtra(ARG_USER);
         }
 
         addListenerOnButtons();
@@ -104,9 +109,8 @@ public class ExibeVisita extends AppCompatActivity {
                     t1.setLanguage(new Locale("pt", "BR"));
                     //                    t1.setPitch(0.2f);
                     //                    t1.setSpeechRate(0.8f);
-                    t1.speak("Aqui será feito a descrição do visitante e exibiremos uma mensagem pra perguntar se ele lembrou! Também será contabilizado a informação que ele lembrou aqui.",
+                    t1.speak("Vamos dar uma breve descrição para tentar lembrá-lo. " + user.getDescription(),
                             TextToSpeech.QUEUE_FLUSH, null);
-                    t1.setSpeechRate(1f);
 
                 }
             }});

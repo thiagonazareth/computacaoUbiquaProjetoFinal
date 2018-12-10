@@ -36,7 +36,9 @@ public class ExibeVisita extends AppCompatActivity {
     TextToSpeech t1;
     private AlertDialog alerta;
     public static final String ARG_USER = "user";
-    public User user;
+    private User user;
+    private Visit visit;
+    private static String[] OPTIONS = new String[]{"Descrição","Lugar","Parentesco"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,12 @@ public class ExibeVisita extends AppCompatActivity {
 
         if (getIntent().hasExtra(ARG_USER)) {
             user = (User) getIntent().getSerializableExtra(ARG_USER);
-
-            String string = getIntent().getStringExtra("ID");
-
             txtPergunta.setText("Você se lembra do " + user.getFirstName() + "?");
             getIntent().removeExtra(ARG_USER);
         }
+
+        visit = new Visit(new Date(), 0, user.getMacAddress());
+        updateQuestionsNumberVisit(visit);
 
         addListenerOnButtons();
 
@@ -71,8 +73,9 @@ public class ExibeVisita extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                speakVisitorDescription();
-                askForRememberVisitorAfterVisitorDescription();
+                //speakVisitorDescription();
+//                askForRememberVisitorAfterVisitorDescription();
+                showDialogAlertWichOtherAudioOptions();
             }
 
         });
@@ -83,16 +86,9 @@ public class ExibeVisita extends AppCompatActivity {
             public void onClick(View arg0) {
                 speakPermissionToOpenDoor();
                 askForOpenDoor();
-                Visit visit = new Visit(new Date(), 1, user.getMacAddress());
 
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Get Data
-                        AppDatabase.getInstance(getApplicationContext()).visitDao().insertAll(visit);
-                        List<Visit> visitas = AppDatabase.getInstance(getApplicationContext()).visitDao().getAll();
-                    }
-                });
+
+
 
             }
 
@@ -107,9 +103,7 @@ public class ExibeVisita extends AppCompatActivity {
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
                     t1.setLanguage(new Locale("pt", "BR"));
-                    //                    t1.setPitch(0.2f);
-                    //                    t1.setSpeechRate(0.8f);
-                    t1.speak("Vamos dar uma breve descrição para tentar lembrá-lo. " + user.getDescription(),
+                    t1.speak("Vamos dar uma breve descrição para você tentar lembrar. " + user.getDescription(),
                             TextToSpeech.QUEUE_FLUSH, null);
 
                 }
@@ -122,9 +116,6 @@ public class ExibeVisita extends AppCompatActivity {
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
                     t1.setLanguage(new Locale("pt", "BR"));
-                    //                    t1.setPitch(0.2f);
-                    //                    t1.setSpeechRate(0.8f);
-
                     t1.speak("Você deseja abrir a porta para sua visita?",
                             TextToSpeech.QUEUE_FLUSH, null);
                     t1.setSpeechRate(1f);
@@ -134,11 +125,8 @@ public class ExibeVisita extends AppCompatActivity {
     }
 
     private void askForOpenDoor(){
-        //Cria o gerador do AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //define o titulo
         builder.setTitle("Abrir a porta?");
-        //define a mensagem
         builder.setMessage("Selecione a opção SIM para abrir a porta.");
         //define um botão como positivo
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
@@ -153,6 +141,7 @@ public class ExibeVisita extends AppCompatActivity {
         //define um botão como negativo.
         builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
+
 
             }
         });
@@ -169,7 +158,7 @@ public class ExibeVisita extends AppCompatActivity {
         //define o titulo
         builder.setTitle("Lembrou?");
         //define a mensagem
-        builder.setMessage("Você se lembrou dele após essa descrição?");
+        builder.setMessage("Você se lembrou dele após esse áudio?");
         //define um botão como positivo
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
@@ -179,7 +168,7 @@ public class ExibeVisita extends AppCompatActivity {
         //define um botão como negativo.
         builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(ExibeVisita.this, "negativo=" + arg1, Toast.LENGTH_SHORT).show();
+
             }
         });
         //cria o AlertDialog
@@ -188,6 +177,74 @@ public class ExibeVisita extends AppCompatActivity {
         alerta.show();
 
     }
+
+    private void speakVisitPlace(){
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(new Locale("pt", "BR"));
+                    //                    t1.setPitch(0.2f);
+                    //                    t1.setSpeechRate(0.8f);
+                    t1.speak("Você conhece ele do seguinte lugar: " + user.getPlace(),
+                            TextToSpeech.QUEUE_FLUSH, null);
+
+                }
+            }});
+    }
+
+    private void speakVisitKindship(){
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(new Locale("pt", "BR"));
+                    //                    t1.setPitch(0.2f);
+                    //                    t1.setSpeechRate(0.8f);
+                    t1.speak("Ele tem o seguinte parentesco com você: " + user.getKinship(),
+                            TextToSpeech.QUEUE_FLUSH, null);
+
+                }
+            }});
+    }
+
+    private void showDialogAlertWichOtherAudioOptions(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(ExibeVisita.this);
+        builder1.setTitle("Ouvir Outras Opções")
+                .setItems(OPTIONS, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch (which){
+                            case 0:
+                                speakVisitorDescription();
+                                break;
+                            case 1:
+                                speakVisitPlace();
+                                break;
+                            case 2:
+                                speakVisitKindship();
+                                break;
+
+                        }
+                    }
+                });
+        AlertDialog showOptionsToPacient = builder1.create();
+        showOptionsToPacient.show();
+
+    }
+
+    private void updateQuestionsNumberVisit(Visit visit){
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                visit.setQtdPerguntas(visit.getQtdPerguntas() + 1);
+                AppDatabase.getInstance(ExibeVisita.this).visitDao().insertAll(visit);
+            }
+        });
+
+    }
+
+
 
 
 

@@ -56,26 +56,17 @@ public class VisitListAdapter extends RecyclerView.Adapter<VisitListAdapter.Visi
             return;
         }
 
-
-
+        
         visit = visitList.get(position);
-        PreencheDados preencheDados = new PreencheDados();
-        preencheDados.execute(holder);
 
-
-//        new AsyncTask<Void, Void, Void>() {
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                user = AppDatabase.getInstance(context).userDao().findByMacAddress(visit.getMacAddress());
-//
-//                return null;
-//            }
-//        }.execute();
-
-
-
-//        holder.txtVisitName.setText(visit.getMacAddress());
+        user = AppDatabase.getInstance(context).userDao().findByMacAddress(visit.getMacAddress());
+        holder.txtVisitName.setText(user.getFirstName() + " " + user.getLastName());
+        holder.txtVisitDate.setText(formatDate(visit.getVisitDate()));
+//        holder.txtVisitName.setText("teste");
 //        holder.txtVisitDate.setText(formatDate(visit.getVisitDate()));
+//        PreencheDados preencheDados = new PreencheDados();
+//        preencheDados.execute(holder);
+
 
     }
 
@@ -108,21 +99,21 @@ public class VisitListAdapter extends RecyclerView.Adapter<VisitListAdapter.Visi
         return dateString;
     }
 
-    private class PreencheDados extends AsyncTask<VisitViewHolder, Void, VisitViewHolder> {
-        protected VisitViewHolder doInBackground(VisitViewHolder... holder) {
-
-            user = AppDatabase.getInstance(context).userDao().findByMacAddress(visit.getMacAddress());
-            return holder[0];
-        }
-
-        protected void onProgressUpdate() {
-
-        }
-
-        protected void onPostExecute(VisitViewHolder holder) {
-            holder.txtVisitName.setText(user.getFirstName() + " " + user.getLastName());
-            holder.txtVisitDate.setText(formatDate(visit.getVisitDate()));
-        }
-    }
+//    private class PreencheDados extends AsyncTask<VisitViewHolder, Void, VisitViewHolder> {
+//        protected VisitViewHolder doInBackground(VisitViewHolder... holder) {
+//
+//            user = AppDatabase.getInstance(context).userDao().findByMacAddress(visit.getMacAddress());
+//            return holder[0];
+//        }
+//
+//        protected void onProgressUpdate() {
+//
+//        }
+//
+//        protected void onPostExecute(VisitViewHolder holder) {
+//            holder.txtVisitName.setText(user.getFirstName() + " " + user.getLastName());
+//            holder.txtVisitDate.setText(formatDate(visit.getVisitDate()));
+//        }
+//    }
     
 }
